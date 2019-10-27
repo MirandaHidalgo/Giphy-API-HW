@@ -28,7 +28,44 @@ $(document).ready(function() {
 
         $("#images").empty();
 
-        
+        $(".animal-buttons").removeClass("active");
+        $(this).addClass("active");
+
+        let type = $(this).attr("data-type");
+        let queryURL = "http://api.giphy.com/v1/gifs/search?q=" + type + "&api_key=dc6zaTOxFJmzC&limit=10"
+
+        //ajax
+
+        $.ajax({
+            url:queryURL,
+            method: "GET"
+        })
+
+        .then(function(response){
+            let results = response.data;
+
+            for(var i =0; i< results.lenght; i++){
+                let animalDiv = $("<div class=\"animal-item\">")
+                let rating = results[i].rating;
+
+                let p = $("<p>").text("Rating: " + rating)
+                let animated = results[i].images.fixed_height.url;
+
+                let still = results[i].images.fixed_height.url;
+                
+                let animalImage = $("<img>")
+                animalImage.attr("scr", still);
+                animalImage.attr("data-still", still);
+                animalImage.attr("data-animate", animated);
+                animalImage.attr("data-state", "still");
+                animalImage.addClass("animal-image");
+
+                animalDiv.append(a)
+            }
+
+
+
+        })
     }))
     
 })
