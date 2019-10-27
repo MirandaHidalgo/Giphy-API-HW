@@ -60,12 +60,33 @@ $(document).ready(function() {
                 animalImage.attr("data-state", "still");
                 animalImage.addClass("animal-image");
 
-                animalDiv.append(a)
+                animalDiv.append(a);
+                animalDiv.append(animalImage);
+
+                $("#images").append(animalDiv);
+
             }
 
 
 
-        })
-    }))
+        });
+    }));
+
+
+    // state from still to animated when clicking//
+
+    $(document).on("click", ".animal-image", function(){
+        let state = $(this).attr("data-state");
+
+        if (state === "still"){
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+        } 
+        else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");
+        }
+
+    });
     
 })
