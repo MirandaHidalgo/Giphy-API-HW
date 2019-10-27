@@ -5,7 +5,7 @@
 
 $(document).ready(function() {
 
-    let animals = ["Dog", "Cat", "Fish", "Monkey", "Pig", "Bear"];
+    let animal = ["Dog", "Cat", "Fish", "Monkey", "Pig", "Bear"];
     
     //Function to make buttons//
 
@@ -13,26 +13,29 @@ $(document).ready(function() {
         $(areaToAddTo).empty();
 
         for (let i=0; i < arrayToUse.lenght; i++){
+
             let a = $("<button>"); 
             a.addClass(classToAdd);
             a.attr("date-type", arrayToUse[i]);
             a.text(arrayToUse[i]);
 
             $(areaToAddTo).append(a);
+
+
+
         }
     }
 
     //function to populate images from the giphy API
 
-    $(document.onabort("click",".animal-buttons", function(){
-
+    $(document).on("click",".animal-button", function(){
         $("#images").empty();
 
-        $(".animal-buttons").removeClass("active");
+        $(".animal-button").removeClass("active");
         $(this).addClass("active");
 
         let type = $(this).attr("data-type");
-        let queryURL = "http://api.giphy.com/v1/gifs/search?q=" + type + "&api_key=dc6zaTOxFJmzC&limit=10"
+        let queryURL = "http://api.giphy.com/v1/gifs/search?q=" + type + "&api_key=wQuaf8Hv8JyeTgvgAT2kz6kcCpzi9n5F"
 
         //ajax
 
@@ -51,7 +54,7 @@ $(document).ready(function() {
                 let p = $("<p>").text("Rating: " + rating)
                 let animated = results[i].images.fixed_height.url;
 
-                let still = results[i].images.fixed_height.url;
+                let still = results[i].images.fixed_height_still.url;
                 
                 let animalImage = $("<img>")
                 animalImage.attr("scr", still);
@@ -60,7 +63,7 @@ $(document).ready(function() {
                 animalImage.attr("data-state", "still");
                 animalImage.addClass("animal-image");
 
-                animalDiv.append(a);
+                animalDiv.append(p);
                 animalDiv.append(animalImage);
 
                 $("#images").append(animalDiv);
@@ -70,7 +73,7 @@ $(document).ready(function() {
 
 
         });
-    }));
+    });
 
 
     // state from still to animated when clicking//
@@ -88,5 +91,20 @@ $(document).ready(function() {
         }
 
     });
-    
-})
+
+    $("#add-animal").on("click", function(event){
+        event.preventDefault();
+        let newAnimal = $("input").eq(0).val();
+
+        if(newAnimal.lenght > 2){
+            animal.push(newAnimal);
+        }
+
+        populateButtons(animal, "animal-button", "#animal-buttons")
+
+
+    });
+
+    populateButtons(animal, "animal-button", "#animal-buttons")
+
+});
